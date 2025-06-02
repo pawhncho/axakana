@@ -361,7 +361,7 @@ def like_report(request):
 	report_like = ReportLike.objects.create(report=report, user=user)
 	channel_layer = get_channel_layer()
 	async_to_sync(channel_layer.group_send)(
-		'user_{report_like.report.user.id}',
+		f'user_{str(report_like.report.user.id)}',
 		{
 			'type': 'send_notification',
 			'message': {
@@ -474,7 +474,7 @@ def submit_report_feedback(request):
 	)
 	channel_layer = get_channel_layer()
 	async_to_sync(channel_layer.group_send)(
-		'user_{feedback.report.user.id}',
+		f'user_{str(feedback.report.user.id)}',
 		{
 			'type': 'send_notification',
 			'message': {
@@ -521,7 +521,7 @@ def submit_prediction_feedback(request):
 	)
 	channel_layer = get_channel_layer()
 	async_to_sync(channel_layer.group_send)(
-		'user_{feedback.prediction.user.id}',
+		f'user_{str(feedback.prediction.user.id)}',
 		{
 			'type': 'send_notification',
 			'message': {
@@ -566,7 +566,7 @@ def submit_reply(request):
 	)
 	channel_layer = get_channel_layer()
 	async_to_sync(channel_layer.group_send)(
-		'user_{reply.parent_feedback.user.id}',
+		f'user_{str(reply.parent_feedback.user.id)}',
 		{
 			'type': 'send_notification',
 			'message': {
