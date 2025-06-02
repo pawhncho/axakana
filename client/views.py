@@ -359,6 +359,7 @@ def like_report(request):
 	if ReportLike.objects.filter(report=report).filter(user=user).exists():
 		return Response({ 'data': 'Bad request', 'status': False })
 	report_like = ReportLike.objects.create(report=report, user=user)
+	channel_layer = get_channel_layer()
 	async_to_sync(channel_layer.group_send)(
 		'user_{report_like.report.user.id}',
 		{
@@ -421,6 +422,7 @@ def like_prediction(request):
 	if PredictionLike.objects.filter(prediction=prediction).filter(user=user).exists():
 		return Response({ 'data': 'Bad request', 'status': False })
 	prediction_like = PredictionLike.objects.create(prediction=prediction, user=user)
+	channel_layer = get_channel_layer()
 	async_to_sync(channel_layer.group_send)(
 		'user_{prediction_like.prediction.user.id}',
 		{
@@ -470,6 +472,7 @@ def submit_report_feedback(request):
 		user=user,
 		report=report
 	)
+	channel_layer = get_channel_layer()
 	async_to_sync(channel_layer.group_send)(
 		'user_{feedback.report.user.id}',
 		{
@@ -516,6 +519,7 @@ def submit_prediction_feedback(request):
 		user=user,
 		prediction=prediction
 	)
+	channel_layer = get_channel_layer()
 	async_to_sync(channel_layer.group_send)(
 		'user_{feedback.prediction.user.id}',
 		{
@@ -560,6 +564,7 @@ def submit_reply(request):
 		parent_feedback=feedback,
 		user=user
 	)
+	channel_layer = get_channel_layer()
 	async_to_sync(channel_layer.group_send)(
 		'user_{reply.parent_feedback.user.id}',
 		{
