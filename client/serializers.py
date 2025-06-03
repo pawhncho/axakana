@@ -25,7 +25,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 		read_only_fields = fields
 
 class ProfileSerializer(serializers.ModelSerializer):
-	user = UserModelSerializer(read_only=True)
+	user = UserModelSerializer()
 	profile_picture = serializers.SerializerMethodField()
 
 	def get_profile_picture(self, obj):
@@ -40,10 +40,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 		read_only_fields = fields
 
 class ReportSerializer(serializers.ModelSerializer):
+	likes = ReportLikeModelSerializer(many=True)
 	class Meta:
 		model = Report
 		fields = ['location', 'latitude', 'longitude', 'report_type', 'description', 'timestamp', 'status',
-					'sensor_data', 'verification_status', 'rating', 'user']
+					'sensor_data', 'verification_status', 'rating', 'user', 'likes']
 		read_only_fields = fields
 
 class ReportLikeSerializer(serializers.ModelSerializer):
@@ -53,10 +54,11 @@ class ReportLikeSerializer(serializers.ModelSerializer):
 		read_only_fields = fields
 
 class PredictionSerializer(serializers.ModelSerializer):
+	likes = PredictionLikeModelSerializer(many=True)
 	class Meta:
 		model = Prediction
 		fields = ['predicted_event', 'generated_text', 'confidence_score', 'valid_until', 'ai_model_version',
-					'timestamp', 'user', 'report']
+					'timestamp', 'user', 'report', 'likes']
 		read_only_fields = fields
 
 class PredictionLikeSerializer(serializers.ModelSerializer):
