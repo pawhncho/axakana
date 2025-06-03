@@ -6,6 +6,7 @@ class FeedbackModelSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Feedback
 		fields = [
+					'id',
 					'rating',
 					'comment',
 					'is_accurate',

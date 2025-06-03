@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Notification
-		fields = ['actor', 'report', 'report_like', 'prediction', 'prediction_like', 'feedback', 'action_type',
+		fields = ['id', 'actor', 'report', 'report_like', 'prediction', 'prediction_like', 'feedback', 'action_type',
 					'message', 'timestamp', 'user']
 		read_only_fields = fields
 
@@ -35,40 +35,41 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Profile
-		fields = ['phone_number', 'profile_picture', 'location', 'timestamp', 'last_modified', 'verification_status',
-					'notification_status', 'user']
+		fields = ['id', 'phone_number', 'profile_picture', 'location', 'timestamp', 'last_modified',
+					'verification_status', 'notification_status', 'user']
 		read_only_fields = fields
 
 class ReportSerializer(serializers.ModelSerializer):
 	likes = ReportLikeModelSerializer(many=True)
 	class Meta:
 		model = Report
-		fields = ['location', 'latitude', 'longitude', 'report_type', 'description', 'timestamp', 'status',
+		fields = ['id', 'location', 'latitude', 'longitude', 'report_type', 'description', 'timestamp', 'status',
 					'sensor_data', 'verification_status', 'rating', 'user', 'likes']
 		read_only_fields = fields
 
 class ReportLikeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ReportLike
-		fields = ['timestamp', 'report', 'user']
+		fields = ['id', 'timestamp', 'report', 'user']
 		read_only_fields = fields
 
 class PredictionSerializer(serializers.ModelSerializer):
 	likes = PredictionLikeModelSerializer(many=True)
 	class Meta:
 		model = Prediction
-		fields = ['predicted_event', 'generated_text', 'confidence_score', 'valid_until', 'ai_model_version',
+		fields = ['id', 'predicted_event', 'generated_text', 'confidence_score', 'valid_until', 'ai_model_version',
 					'timestamp', 'user', 'report', 'likes']
 		read_only_fields = fields
 
 class PredictionLikeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = PredictionLike
-		fields = ['timestamp', 'prediction', 'user']
+		fields = ['id', 'timestamp', 'prediction', 'user']
 		read_only_fields = fields
 
 class FeedbackSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Feedback
-		fields = ['rating', 'comment', 'is_accurate', 'timestamp', 'parent_feedback', 'user', 'prediction', 'report']
+		fields = ['id', 'rating', 'comment', 'is_accurate', 'timestamp', 'parent_feedback', 'user', 'prediction',
+					'report']
 		read_only_fields = fields

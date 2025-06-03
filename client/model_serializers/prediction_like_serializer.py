@@ -6,6 +6,7 @@ class PredictionLikeModelSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = PredictionLike
 		fields = [
+					'id',
 					'timestamp',
 					'prediction',
 					'user',

@@ -6,6 +6,7 @@ class PredictionModelSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Prediction
 		fields = [
+					'id',
 					'predicted_event',
 					'generated_text',
 					'confidence_score',

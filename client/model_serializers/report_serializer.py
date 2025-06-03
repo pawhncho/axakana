@@ -6,6 +6,7 @@ class ReportModelSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Report
 		fields = [
+					'id',
 					'location',
 					'latitude',
 					'longitude',

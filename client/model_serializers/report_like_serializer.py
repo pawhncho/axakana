@@ -6,6 +6,7 @@ class ReportLikeModelSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ReportLike
 		fields = [
+					'id',
 					'timestamp',
 					'report',
 					'user',
