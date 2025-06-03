@@ -12,9 +12,10 @@ from .model_serializers.feedback_serializer import FeedbackModelSerializer
 
 # Create your serializers here.
 class UserSerializer(serializers.ModelSerializer):
+	profile = ProfileModelSerializer()
 	class Meta:
 		model = User
-		fields = ['id', 'first_name', 'last_name', 'username', 'email', 'last_login', 'date_joined']
+		fields = ['id', 'first_name', 'last_name', 'username', 'email', 'last_login', 'date_joined', 'profile']
 		read_only_fields = fields
 
 class NotificationSerializer(serializers.ModelSerializer):
@@ -40,6 +41,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 		read_only_fields = fields
 
 class ReportSerializer(serializers.ModelSerializer):
+	user = UserSerializer()
 	likes = ReportLikeModelSerializer(many=True)
 	class Meta:
 		model = Report
@@ -54,6 +56,7 @@ class ReportLikeSerializer(serializers.ModelSerializer):
 		read_only_fields = fields
 
 class PredictionSerializer(serializers.ModelSerializer):
+	user = UserSerializer()
 	likes = PredictionLikeModelSerializer(many=True)
 	class Meta:
 		model = Prediction
