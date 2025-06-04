@@ -129,6 +129,19 @@ def profile(request):
 	return Response({ 'data': profile_serializer.data, 'status': True })
 
 @api_view(['GET'])
+def notifications(request):
+	token = request.GET.get('token')
+	if not token:
+		return Response({ 'data': 'Invalid parameters', 'status': False })
+	if not Token.objects.filter(key=token).exists():
+		return Response({ 'data': 'Invalid token', 'status': False })
+	token = Token.objects.filter(key=token).first()
+	user = token.user
+	notifications = Notification.objects.filter(user=user).all()
+	notifications_serializer = NotificationSerializer(notifications, many=True)
+	return Response({ 'data': notifications_serializer.data, 'status': True })
+
+@api_view(['GET'])
 def turn_on_notifications(request):
 	token = request.GET.get('token')
 	if not token:
@@ -468,7 +481,7 @@ def submit_report_feedback(request):
 	feedback = Feedback.objects.create(
 		rating=request.data.get('rating'),
 		comment=request.data.get('comment'),
-		is_accurate=request.data.get('is_accurate'),
+		is_accurate=request.data.get('is-accurate'),
 		user=user,
 		report=report
 	)
@@ -515,7 +528,7 @@ def submit_prediction_feedback(request):
 	feedback = Feedback.objects.create(
 		rating=request.data.get('rating'),
 		comment=request.data.get('comment'),
-		is_accurate=request.data.get('is_accurate'),
+		is_accurate=request.data.get('is-accurate'),
 		user=user,
 		prediction=prediction
 	)
