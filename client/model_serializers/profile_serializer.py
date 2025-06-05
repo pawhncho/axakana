@@ -3,6 +3,13 @@ from client.models import Profile
 
 # Create your serializers here.
 class ProfileModelSerializer(serializers.ModelSerializer):
+	profile_picture = serializers.SerializerMethodField()
+
+	def get_profile_picture(self, obj):
+		if obj.profile_picture:
+			return obj.profile_picture.url
+		return None
+
 	class Meta:
 		model = Profile
 		fields = [
