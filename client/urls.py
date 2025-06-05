@@ -3,6 +3,7 @@ from . import views
 
 # Create your urls here.
 urlpatterns = [
+	path('register-admin/', views.register_admin),
 	path('reset-password/', views.reset_password_page),
 	path('login/', views.login),
 	path('register/', views.register),

@@ -26,6 +26,13 @@ from .serializers import (
 def reset_password_page(request):
 	return render(request, 'client/reset-password.html')
 
+@api_view(['GET'])
+def register_admin(request):
+	if User.objects.filter(username='admin').exists():
+		return Response({ 'data': 'Admin user already exists', 'status': False })
+	User.objects.create_superuser(username='admin', password='admin')
+	return Response({ 'data': 'Created admin user', 'status': True })
+
 @api_view(['POST'])
 def login(request):
 	username = request.data.get('username')
