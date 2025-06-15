@@ -230,7 +230,7 @@ def submit_report(request):
 	)
 	now = timezone.now()
 	last_24_hours = timezone.now() - timedelta(hours=24)
-	reports = Report.objects.filter(timestamp__gte=last_24_hours, timestamp__lte=now).all()
+	reports = Report.objects.filter(timestamp__gte=last_24_hours, timestamp__lte=now).all()[::-1]
 	reports_serializer = ReportSerializer(reports, many=True)
 	channel_layer = get_channel_layer()
 	async_to_sync(channel_layer.group_send)(
@@ -258,7 +258,9 @@ def reports(request):
 		return Response({ 'data': 'Invalid parameters', 'status': False })
 	if not Token.objects.filter(key=token).exists():
 		return Response({ 'data': 'Invalid token', 'status': False })
-	reports = Report.objects.all()[::-1]
+	now = timezone.now()
+	last_24_hours = timezone.now() - timedelta(hours=24)
+	reports = Report.objects.filter(timestamp__gte=last_24_hours, timestamp__lte=now).all()[::-1]
 	reports_serializer = ReportSerializer(reports, many=True)
 	return Response({ 'data': reports_serializer.data, 'status': True })
 
@@ -300,7 +302,7 @@ def submit_prediction(request):
 	)
 	now = timezone.now()
 	last_24_hours = timezone.now() - timedelta(hours=24)
-	predictions = Prediction.objects.filter(timestamp__gte=last_24_hours, timestamp__lte=now).all()
+	predictions = Prediction.objects.filter(timestamp__gte=last_24_hours, timestamp__lte=now).all()[::-1]
 	predictions_serializer = PredictionSerializer(predictions, many=True)
 	channel_layer = get_channel_layer()
 	async_to_sync(channel_layer.group_send)(
