@@ -330,7 +330,9 @@ def predictions(request):
 		return Response({ 'data': 'Invalid parameters', 'status': False })
 	if not Token.objects.filter(key=token).exists():
 		return Response({ 'data': 'Invalid token', 'status': False })
-	predictions = Prediction.objects.all()[::-1]
+	now = timezone.now()
+	last_24_hours = timezone.now() - timedelta(hours=24)
+	predictions = Prediction.objects.filter(timestamp__gte=last_24_hours, timestamp__lte=now).all()[::-1]
 	predictions_serializer = PredictionSerializer(predictions, many=True)
 	return Response({ 'data': predictions_serializer.data, 'status': True })
 
